@@ -7,9 +7,11 @@ npm init
       brew install mongodb-community
 npm i mongoose
 mongod - starts database
+npm i bcryptjs - password hashing
 */
 const express = require('express');
 const mongoose = require('mongoose');
+const userRouter = require('./routes/users');
 
 // create port variable
 const { PORT = 3000 } = process.env;
@@ -22,6 +24,8 @@ mongoose.connect('mongodb://localhost:27017/api-helper');
 
 // middleware function to parse incoming requests as JSON
 app.use(express.json());
+
+app.use('/users', userRouter);
 
 // listen for requests on our port variable
 app.listen(PORT);
