@@ -13,6 +13,10 @@ npm i jsonwebtoken
 const express = require('express');
 const mongoose = require('mongoose');
 const userRouter = require('./routes/users');
+const {
+  register,
+  login,
+} = require('./controllers/users');
 
 // create port variable
 const { PORT = 3000 } = process.env;
@@ -25,6 +29,9 @@ mongoose.connect('mongodb://localhost:27017/api-helper');
 
 // middleware function to parse incoming requests as JSON
 app.use(express.json());
+
+app.use('/register', register);
+app.use('/login', login);
 
 app.use('/users', userRouter);
 
