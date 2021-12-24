@@ -1,4 +1,4 @@
-/* 
+/*
 npm install express
 npm install nodemon -D
 npm init
@@ -9,6 +9,11 @@ npm i mongoose
 mongod - starts database
 npm i bcryptjs - password hashing
 npm i jsonwebtoken
+add .editorconfig file
+npm i eslint --save-dev
+npm i eslint-config-airbnb-base --save-dev
+npm i eslint-plugin-import --save-dev
+add .eslintrc file
 */
 const express = require('express');
 const mongoose = require('mongoose');
