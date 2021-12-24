@@ -4,6 +4,7 @@ const Users = require('../models/user');
 const bcrypt = require('bcryptjs');
 // include jsonwebtoken package for tokens
 const jwt = require('jsonwebtoken');
+const ErrorManager = require('../errors/error-manager');
 
 // register accepts an email and password. Creates a new user
 module.exports.register = (req, res) => {
@@ -24,7 +25,7 @@ module.exports.register = (req, res) => {
     .catch((err) => res.status(400).send({ message: err.message }));
 }
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   // get email/password from req
   const { email, password } = req.body;
 
@@ -33,7 +34,7 @@ module.exports.login = (req, res) => {
     .then((user) => {
       // return error if email doesn't exist
       if (!user) {
-        return Promise.reject(new Error('Login failed. The email was not found.'));
+        return Promise.reject(new ErrorManager(401, 'Login failed. The email was not found.'));
       }
 
       // compare login password with hash password
@@ -41,7 +42,7 @@ module.exports.login = (req, res) => {
         .then((matched) => {
           // if the password doesnt match, return error
           if (!matched){
-            return Promise.reject(new Error('Login failed. The password was incorrect.'));
+            return Promise.reject(new ErrorManager(403, 'Login failed. The password was incorrect.'));
           }
           // password does match so we return user
           return user;
@@ -54,8 +55,7 @@ module.exports.login = (req, res) => {
       // return token
       res.send({ token });
     })
-    .catch((err) => {
-      res.status(401).send({ message: err.message })
-    });
+    // pass thrown errors to central error handler
+    .catch((next));
     
 }
