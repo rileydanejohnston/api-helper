@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const ErrorManager = require('../errors/error-manager');
 
 // register accepts an email and password. Creates a new user
-module.exports.register = (req, res) => {
+module.exports.register = (req, res, next) => {
   // get email, password from request body
   const { email, password } = req.body;
 
@@ -22,7 +22,15 @@ module.exports.register = (req, res) => {
         },
       });
     })
-    .catch((err) => res.status(400).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name === 'MongoServerError'){
+        next(new ErrorManager(409, 'Registration failed. The email is already registered.'));
+      }
+      else if (err.name === 'ValidationError'){
+        next(new ErrorManager(400, 'Registration failed. The email or password are invalid.'));
+      }
+      next(new ErrorManager(500, 'Registration failed. Unable to identify the error'));
+  });
 }
 
 module.exports.login = (req, res, next) => {

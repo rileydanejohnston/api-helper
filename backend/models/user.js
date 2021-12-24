@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
     minlength: 2,
     maxlength: 30,
+    validate: {
+      validator: (v) => validator.isEmail(v),
+      message: 'Error! The email you entered is invalid',
+    },
   },
   password: {
     type: String,
