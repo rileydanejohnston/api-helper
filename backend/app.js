@@ -8,6 +8,7 @@ npm init
 npm i mongoose
 mongod - starts database
 npm i bcryptjs - password hashing
+npm i jsonwebtoken
 */
 const express = require('express');
 const mongoose = require('mongoose');
