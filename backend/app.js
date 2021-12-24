@@ -14,6 +14,10 @@ npm i eslint --save-dev
 npm i eslint-config-airbnb-base --save-dev
 npm i eslint-plugin-import --save-dev
 add .eslintrc file
+npm i winston
+npm i express-winston
+npm i validator
+npm i celebrate
 */
 const express = require('express');
 const mongoose = require('mongoose');
@@ -22,6 +26,10 @@ const {
   register,
   login,
 } = require('./controllers/users');
+const {
+  requestLogger,
+  errorLogger,
+} = require('./middlewares/logger');
 
 // create port variable
 const { PORT = 3000 } = process.env;
@@ -35,10 +43,16 @@ mongoose.connect('mongodb://localhost:27017/api-helper');
 // middleware function to parse incoming requests as JSON
 app.use(express.json());
 
+// log all requests
+app.use(requestLogger);
+
 app.use('/register', register);
 app.use('/login', login);
 
-app.use('/users', userRouter);
+// app.use('/users', userRouter);
+
+// log all errors
+app.use(errorLogger);
 
 // centralized error handling
 app.use((err, req, res, next) => {
