@@ -14,7 +14,7 @@ module.exports.register = (req, res, next) => {
   bcrypt.hash(password, 10)
     .then((hash) => Users.create({ email, password: hash }))
     .then((user) => {
-      res.status(201).send({ 
+      res.status(201).send({
         data: {
           email: user.email,
           name: user.name,
@@ -65,5 +65,15 @@ module.exports.login = (req, res, next) => {
     })
     // pass thrown errors to central error handler
     .catch((next));
-    
+
+}
+
+module.exports.getCurrentUser = (req, res, next) => {
+  // id will be available in the req object thanks to auth middleware
+  const { _id } = req.user;
+  // search db for matching id
+  // either find the user or pass an error
+  return Users.findById(_id)
+    .then((user) => res.status(200).send({ data: user }))
+    .catch(next);
 }

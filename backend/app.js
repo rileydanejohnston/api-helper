@@ -49,7 +49,7 @@ app.use(requestLogger);
 app.use('/register', register);
 app.use('/login', login);
 
-// app.use('/users', userRouter);
+app.use('/users', userRouter);
 
 // log all errors
 app.use(errorLogger);
