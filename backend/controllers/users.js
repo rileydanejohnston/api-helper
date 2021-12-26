@@ -38,7 +38,8 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   // search DB for email
-  Users.findOne({ email })
+  // we need the password so include it from DB
+  Users.findOne({ email }).select('+password')
     .then((user) => {
       // return error if email doesn't exist
       if (!user) {
