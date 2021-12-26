@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema({
     minlength: 2,
     maxlength: 40,
     default: 'Alex'
+  },
+  avatar: {
+    type: String,
+    minlength: 2,
+    default: 'https://images.unsplash.com/photo-1475359524104-d101d02a042b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2588&q=80',
   }
 });
 

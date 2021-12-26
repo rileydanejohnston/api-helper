@@ -18,6 +18,7 @@ module.exports.register = (req, res, next) => {
         data: {
           email: user.email,
           name: user.name,
+          avatar: user.avatar,
           _id: user._id,
         },
       });
