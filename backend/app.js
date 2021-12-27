@@ -19,11 +19,13 @@ npm i express-winston
 npm i validator
 npm i celebrate
 npm i cors
+npm i helmet
 */
 const express = require('express');
 const mongoose = require('mongoose');
 const userRouter = require('./routes/users');
 const cors = require('cors');
+const helmet = require('helmet');
 const {
   register,
   login,
@@ -41,6 +43,9 @@ const app = express();
 
 // create db with mongoose
 mongoose.connect('mongodb://localhost:27017/api-helper');
+
+// enable helmet - security headers module
+app.use(helmet());
 
 // middleware function to parse incoming requests as JSON
 app.use(express.json());
