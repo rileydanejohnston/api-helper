@@ -18,10 +18,12 @@ npm i winston
 npm i express-winston
 npm i validator
 npm i celebrate
+npm i cors
 */
 const express = require('express');
 const mongoose = require('mongoose');
 const userRouter = require('./routes/users');
+const cors = require('cors');
 const {
   register,
   login,
@@ -45,6 +47,11 @@ app.use(express.json());
 
 // log all requests
 app.use(requestLogger);
+
+// enable cors
+// enable all preflight requests too
+app.use(cors());
+app.options('*', cors());
 
 app.use('/register', register);
 app.use('/login', login);
